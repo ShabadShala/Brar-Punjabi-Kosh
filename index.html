@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brar Punjabi Kosh</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f9e8;
+      margin: 20px;
+      user-select: none; /* Disable text selection */
+    }
+    h1 {
+      text-align: center;
+      color: #006400;
+    }
+    .search-container {
+      position: relative;
+      width: 220px;
+      margin: 0 auto 20px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    .clear-btn {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #ccc;
+      font-size: 18px;
+      display: none; /* Initially hidden */
+    }
+    #recordsContainer {
+      max-height: 400px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      background-color: #e6ffe6;
+      margin: 10px 0;
+      padding: 10px;
+      border: 1px solid #006400;
+      border-radius: 5px;
+    }
+    li span.word {
+      font-weight: bold;
+    }
+    .pagination {
+      text-align: center;
+      margin: 20px 0;
+    }
+    .pagination button {
+      margin: 0 5px;
+      padding: 10px;
+      background: #4caf50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 18px;
+    }
+    .pagination button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    .links {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .links a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #006400;
+      font-weight: bold;
+    }
+    #aboutPopup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    #aboutPopup button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    /* Loading message styles */
+    #loadingMessage {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 24px;
+      font-weight: bold;
+      color: #4caf50;
+      display: none; /* Initially hidden */
+    }
+  </style>
+</head>
+<body>
+  <h1>All Records</h1>
+  <div class="search-container">
+    <input type="text" id="searchBox" placeholder="Filter records..." oninput="filterRecords()">
+    <span class="clear-btn" id="clearButton" onclick="clearSearch()">&#x2715;</span>
+  </div>
+  <div id="loadingMessage">Loading...</div> <!-- Loading message -->
+  <div id="recordsContainer">
+    <ul id="recordsList"></ul>
+  </div>
+  <div class="pagination" id="pagination" style="display: none;">
+    <button onclick="goStart()" id="btnStart" disabled>&#x23EE;</button> <!-- Start -->
+    <button onclick="goPrevious()" id="btnPrevious" disabled>&#x23EA;</button> <!-- Previous -->
+    <button onclick="goNext()" id="btnNext" disabled>&#x23E9;</button> <!-- Next -->
+    <button onclick="goEnd()" id="btnEnd" disabled>&#x23ED;</button> <!-- End -->
+  </div>
+  <div class="links">
+    <a href="#" onclick="showAboutPopup()">About</a>
+    <a href="https://t.me/Shabadshala" target="_blank">ShabadShala</a>
+  </div>
+
+  <div id="aboutPopup">
+    <p>Designed and maintained by ShabadShala</p>
+    <button onclick="closeAboutPopup()">OK</button>
+  </div>
+
+  <script>
+    let allRecords = [];
+    let currentRecords = [];
+    let currentPage = 1;
+    const recordsPerPage = 10;
+
+    async function fetchAllRecords() {
+      document.getElementById('loadingMessage').style.display = 'block'; // Show loading message
+      const scriptURL = "https://script.google.com/macros/s/AKfycbyLkv5u8NDrYaP1BeMP5aUAvIY3F0mxpLUQPh4ATnciEtvv9A9rV3B5F1_TZ8TLln9CyA/exec";
+      try {
+        const response = await fetch(`${scriptURL}?all=true`);
+        const rawRecords = await response.json();
+        allRecords = rawRecords.slice(1); // Skip the header record
+        currentRecords = [...allRecords];
+        displayRecords();
+        updatePagination();
+        document.getElementById('loadingMessage').style.display = 'none'; // Hide loading message
+      } catch (error) {
+        const list = document.getElementById('recordsList');
+        list.innerHTML = `<li style="color: red;">Error fetching records.</li>`;
+        document.getElementById('loadingMessage').style.display = 'none'; // Hide loading message
+      }
+    }
+
+    function displayRecords() {
+      const list = document.getElementById('recordsList');
+      list.innerHTML = '';
+      const startIndex = (currentPage - 1) * recordsPerPage;
+      const paginatedRecords = currentRecords.slice(startIndex, startIndex + recordsPerPage);
+
+      paginatedRecords.forEach(record => {
+        const li = document.createElement('li');
+        li.innerHTML = `<span class="word">${record.word}</span> - ${record.meaning}`;
+        list.appendChild(li);
+      });
+    }
+
+    function updatePagination() {
+      const totalPages = Math.ceil(currentRecords.length / recordsPerPage);
+      const pagination = document.getElementById('pagination');
+      pagination.style.display = currentRecords.length > 10 ? 'block' : 'none';
+
+      document.getElementById('btnStart').disabled = currentPage === 1;
+      document.getElementById('btnPrevious').disabled = currentPage === 1;
+      document.getElementById('btnNext').disabled = currentPage === totalPages || totalPages === 0;
+      document.getElementById('btnEnd').disabled = currentPage === totalPages || totalPages === 0;
+    }
+
+    function filterRecords() {
+      const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+      currentRecords = allRecords.filter(record =>
+        record.word.toLowerCase().startsWith(searchTerm)
+      );
+      currentPage = 1;
+      displayRecords();
+      updatePagination();
+      toggleClearButton();
+    }
+
+    function clearSearch() {
+      document.getElementById('searchBox').value = '';
+      currentRecords = [...allRecords];
+      currentPage = 1;
+      displayRecords();
+      updatePagination();
+      toggleClearButton();
+    }
+
+    function toggleClearButton() {
+      const searchBox = document.getElementById('searchBox');
+      const clearButton = document.getElementById('clearButton');
+      clearButton.style.display = searchBox.value ? 'block' : 'none';
+    }
+
+    function goStart() {
+      currentPage = 1;
+      displayRecords();
+      updatePagination();
+    }
+
+    function goPrevious() {
+      if (currentPage > 1) {
+        currentPage--;
+        displayRecords();
+        updatePagination();
+      }
+    }
+
+    function goNext() {
+      const totalPages = Math.ceil(currentRecords.length / recordsPerPage);
+      if (currentPage < totalPages) {
+        currentPage++;
+        displayRecords();
+        updatePagination();
+      }
+    }
+
+    function goEnd() {
+      currentPage = Math.ceil(currentRecords.length / recordsPerPage);
+      displayRecords();
+      updatePagination();
+    }
+
+    function showAboutPopup() {
+      document.getElementById('aboutPopup').style.display = 'block';
+    }
+
+    function closeAboutPopup() {
+      document.getElementById('aboutPopup').style.display = 'none';
+    }
+
+    fetchAllRecords();
+  </script>
+</body>
+</html>
