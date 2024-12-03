@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Brar Punjabi Kosh</title>
   <style>
     body {
@@ -136,6 +136,34 @@
   </style>
 </head>
 <body>
+<!-- Help Button -->
+<!-- Help Button -->
+<div style="position: absolute; top: 10px; right: 10px;">
+  <button onclick="showHelpPopup()" style="background: none; border: none; cursor: pointer;">
+    <img src="https://raw.githubusercontent.com/ShabadShala/Brar-Punjabi-Kosh/main/help-icon.png" alt="Help" style="width: 24px; height: 24px;">
+  </button>
+</div>
+
+
+<!-- Help Popup -->
+<div id="helpPopup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 400px; background: #fff; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 20px; border-radius: 8px; text-align: center; z-index: 1000;">
+<p style="font-size: 15px; color: #333; text-align: center; margin-bottom: 10px; font-weight: bold;">
+  ਕੋਸ਼ ਬਾਰੇ ਸਹਾਇਤਾ
+</p>
+<p style="font-size: 14px; color: #333; text-align: left;">
+  🔹 ਲਿਖੇ ਗਏ ਪੰਜਾਬੀ ਅੱਖਰਾਂ ਮੁਤਾਬਕ ਹੇਠਾਂ ਉਨ੍ਹਾਂ ਅੱਖਰਾਂ ਤੋਂ ਸ਼ੁਰੂ ਹੋਣ ਵਾਲੇ ਨਤੀਜੇ ਦਿਖਾਈ ਦੇਣਗੇ<br>
+  🔹 ਲਿਖੇ ਹੋਏ ਅੱਖਰ ਮਿਟਾਉਣ ਲਈ ਕੀਬੋਰਡ ਤੋਂ BackSpace ਜਾਂ ਕਾਟੀ ਦਾ ਨਿਸ਼ਾਨ ਨੱਪ ਸਕਦੇ ਹੋ<br>
+  🔹 ਇੱਕ ਵਾਰ ਵੱਧ ਤੋਂ ਵੱਧ 10 ਸ਼ਬਦ-ਅਰਥ ਦਿਸਣਗੇ, ਜਿਨ੍ਹਾਂ ਨੂੰ ਉੱਪਰ-ਥੱਲੇ ਕਰਕੇ ਦੇਖ ਸਕਦੇ ਹੋ<br>
+  🔹 ਪਿਛਲੇ, ਅਗਲੇ, ਪਹਿਲੇ ਤੇ ਆਖਰੀ ਪੰਨੇ ਉੱਤੇ ਜਾਣ ਲਈ ਹੇਠਾਂ ਬਣੇ ਚਾਰ ਬਟਨ ਵਰਤ ਸਕਦੇ ਹੋ<br>
+  🔹 ਆਖ਼ਰ 'ਤੇ ਬਣੇ ਲਿੰਕ ਰਾਹੀਂ ਟੈਲੀਗ੍ਰਾਮ ਮੰਚ ਉੱਤੇ ਸ਼ਬਦਸ਼ਾਲਾ ਦੇ ਮੁੱਖ ਚੈਨਲ ਨਾਲ ਜੁੜ ਸਕਦੇ ਹੋ
+</p>
+
+  <button onclick="closeHelpPopup()" style="margin-top: 10px; padding: 8px 16px; font-size: 14px; background: #006400; color: #fff; border: none; border-radius: 4px; cursor: pointer;">OK</button>
+</div>
+
+<!-- Overlay for Dim Background -->
+<div id="popupOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 999;"></div>
+
   <h1>Brar Punjabi Kosh</h1>
   <div class="search-container">
     <input type="text" id="searchBox" placeholder="Filter records..." oninput="filterRecords()">
@@ -151,16 +179,12 @@
     <button onclick="goNext()" id="btnNext" disabled>▶️</button> <!-- Next -->
     <button onclick="goEnd()" id="btnEnd" disabled>&#x23ED;</button> <!-- End -->
   </div>
-  <div style="width: 200px; height: 1px; background-color: #006400; margin: 10px auto;"></div>
-  <div class="links">
-    <a href="#" onclick="showAboutPopup()">About</a>
-    <a href="https://t.me/Shabadshala" target="_blank">ShabadShala</a>
-  </div>
+<div style="width: 225px; height: 1px; background-color: #006400; margin: 10px auto;"></div>
+<div style="text-align: center; font-size: 16px; color: #333;">
+  Designed and maintained by 
+  <a href="https://t.me/ShabadShala" target="_blank" style="color: #0000EE; text-decoration: none;">ShabadShala</a>.
+</div>
 
-  <div id="aboutPopup">
-    <p>Designed and maintained by ShabadShala</p>
-    <button onclick="closeAboutPopup()">OK</button>
-  </div>
 
   <script>
     let allRecords = [];
@@ -265,15 +289,17 @@
       updatePagination();
     }
 
-    function showAboutPopup() {
-      document.getElementById('aboutPopup').style.display = 'block';
-    }
-
-    function closeAboutPopup() {
-      document.getElementById('aboutPopup').style.display = 'none';
-    }
 
     fetchAllRecords();
+function showHelpPopup() {
+  document.getElementById("helpPopup").style.display = "block";
+  document.getElementById("popupOverlay").style.display = "block";
+}
+
+function closeHelpPopup() {
+  document.getElementById("helpPopup").style.display = "none";
+  document.getElementById("popupOverlay").style.display = "none";
+}
   </script>
 </body>
 </html>
