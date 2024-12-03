@@ -37,11 +37,27 @@
       font-size: 18px;
       display: none; /* Initially hidden */
     }
-    #recordsContainer {
-      max-height: 400px;
-      overflow-y: auto;
-      margin-bottom: 20px;
-    }
+#recordsContainer {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: #ccc transparent; /* For Firefox */
+}
+
+#recordsContainer::-webkit-scrollbar {
+  width: 8px; /* Scrollbar width for WebKit-based browsers */
+}
+
+#recordsContainer::-webkit-scrollbar-thumb {
+  background-color: #ccc; /* Thumb color */
+  border-radius: 4px;
+}
+
+#recordsContainer::-webkit-scrollbar-track {
+  background: transparent; /* Track background */
+}
+
     ul {
       list-style: none;
       padding: 0;
@@ -107,20 +123,20 @@
       cursor: pointer;
     }
     /* Loading message styles */
-    #loadingMessage {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 24px;
-      font-weight: bold;
-      color: #4caf50;
-      display: none; /* Initially hidden */
-    }
+#loadingMessage {
+  position: relative; /* Keep it in the flow of the document */
+  font-size: 24px;
+  font-weight: bold;
+  color: #4caf50;
+  display: block;
+  margin: 0 auto; /* Center horizontally */
+  text-align: center; /* Ensure the text itself is centered */
+}
+
   </style>
 </head>
 <body>
-  <h1>All Records</h1>
+  <h1>Brar Punjabi Kosh</h1>
   <div class="search-container">
     <input type="text" id="searchBox" placeholder="Filter records..." oninput="filterRecords()">
     <span class="clear-btn" id="clearButton" onclick="clearSearch()">&#x2715;</span>
@@ -131,8 +147,8 @@
   </div>
   <div class="pagination" id="pagination" style="display: none;">
     <button onclick="goStart()" id="btnStart" disabled>&#x23EE;</button> <!-- Start -->
-    <button onclick="goPrevious()" id="btnPrevious" disabled>&#x23EA;</button> <!-- Previous -->
-    <button onclick="goNext()" id="btnNext" disabled>&#x23E9;</button> <!-- Next -->
+    <button onclick="goPrevious()" id="btnPrevious" disabled>◀️</button> <!-- Previous -->
+    <button onclick="goNext()" id="btnNext" disabled>▶️</button> <!-- Next -->
     <button onclick="goEnd()" id="btnEnd" disabled>&#x23ED;</button> <!-- End -->
   </div>
   <div class="links">
