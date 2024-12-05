@@ -20,23 +20,31 @@
       width: 175px;
       margin: 0 auto 20px;
     }
-    input[type="text"] {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 16px;
-    }
-    .clear-btn {
-      position: absolute;
-      right: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      cursor: pointer;
-      color: #ccc;
-      font-size: 18px;
-      display: none; /* Initially hidden */
-    }
+  .input-wrapper {
+    position: relative;
+    width: 150px; /* Fixed width for the input box */
+  }
+
+  input {
+    width: 100%; /* Takes up the full width of its parent (150px) */
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #006400;
+    border-radius: 5px;
+    outline: none;
+    box-sizing: border-box;
+  }
+
+  .clear-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    color: #006400;
+    display: none;
+  }
 #recordsContainer {
   max-height: 400px;
   overflow-y: auto;
@@ -146,6 +154,7 @@
 
 <!-- Help Popup -->
 <div id="helpPopup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 400px; background: #fff; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 20px; border-radius: 8px; text-align: center; z-index: 1000;">
+
 <p style="font-size: 15px; color: #333; text-align: center; margin-bottom: 10px; font-weight: bold;">
   ਕੋਸ਼ ਬਾਰੇ ਸਹਾਇਤਾ
 </p>
@@ -251,6 +260,7 @@
       displayRecords();
       updatePagination();
       toggleClearButton();
+ document.getElementById('searchBox').focus();
     }
 
     function toggleClearButton() {
