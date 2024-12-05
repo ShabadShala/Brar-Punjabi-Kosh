@@ -20,6 +20,27 @@
       width: 175px;
       margin: 0 auto 20px;
     }
+/*  for the Go to Top button */
+.go-to-top-btn {
+  position: fixed;
+  bottom: 20px;  /* Distance from the bottom of the page */
+  right: 20px;   /* Distance from the right side of the page */
+  background-color: #007bff;  /* Button background color */
+  color: white;  /* Text color */
+  border: none;  /* Remove default border */
+  border-radius: 50%;  /* Circular button */
+  padding: 15px;  /* Size of the button */
+  font-size: 20px;  /* Font size for the arrow */
+  cursor: pointer;  /* Cursor on hover */
+  display: none;  /* Initially hidden */
+ z-index: 9999;
+  transition: opacity 0.3s ease;  /* Smooth transition for opacity */
+}
+
+.go-to-top-btn:hover {
+  background-color: #0056b3;  /* Change color when hovered */
+}
+
   .input-wrapper {
     position: relative;
     width: 150px; /* Fixed width for the input box */
@@ -144,6 +165,7 @@
   </style>
 </head>
 <body>
+<button id="goToTopBtn" class="go-to-top-btn">↑</button>
 <!-- Help Button -->
 <div style="position: absolute; top: 10px; right: 10px;">
   <button onclick="showHelpPopup()" style="background: none; border: none; cursor: pointer;">
@@ -309,6 +331,20 @@ function closeHelpPopup() {
   document.getElementById("helpPopup").style.display = "none";
   document.getElementById("popupOverlay").style.display = "none";
 }
+
+// Get the button element
+const goToTopBtn = document.getElementById('goToTopBtn');
+window.onscroll = function() {
+  if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+    goToTopBtn.style.display = 'block';  // Show the button
+  } else {
+    goToTopBtn.style.display = 'none';   // Hide the button
+  }
+};
+goToTopBtn.onclick = function() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });  // Smooth scroll to top
+};
+
   </script>
 
 <div style="display: flex; align-items: center; justify-content: center; margin-top: 20px;">
@@ -330,5 +366,7 @@ function closeHelpPopup() {
   <!-- hitwebcounter Code END -->
 </div>
 
+
 </body>
+
 </html>                                    
