@@ -66,26 +66,8 @@
     color: #006400;
     display: none;
   }
-#recordsContainer {
-  max-height: 400px;
-  overflow-y: auto;
-  margin-bottom: 20px;
-  scrollbar-width: thin; /* For Firefox */
-  scrollbar-color: #ccc transparent; /* For Firefox */
-}
 
-#recordsContainer::-webkit-scrollbar {
-  width: 8px; /* Scrollbar width for WebKit-based browsers */
-}
 
-#recordsContainer::-webkit-scrollbar-thumb {
-  background-color: #ccc; /* Thumb color */
-  border-radius: 4px;
-}
-
-#recordsContainer::-webkit-scrollbar-track {
-  background: transparent; /* Track background */
-}
 
     ul {
       list-style: none;
@@ -152,6 +134,7 @@
       cursor: pointer;
     }
     /* Loading message styles */
+
 #loadingMessage {
   position: relative; /* Keep it in the flow of the document */
   font-size: 24px;
