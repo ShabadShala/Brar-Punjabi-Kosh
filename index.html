@@ -69,20 +69,34 @@
 
 
 
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-    li {
-      background-color: #e6ffe6;
-      margin: 10px 0;
-      padding: 10px;
-      border: 1px solid #006400;
-      border-radius: 5px;
-    }
-    li span.word {
-      font-weight: bold;
-    }
+ul {
+ list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+li {
+  background-color: #e6ffe6;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #006400;
+  border-radius: 5px;
+  width: 100%;  /* Default width for mobile and smaller screens */
+}
+
+/* Media query for desktop screens */
+@media (min-width: 768px) {
+  li {
+    width: 50%;  /* Limit width to 50% on desktop */
+  }
+}
+
+li span.word {
+  font-weight: bold;
+}
+
     .pagination {
       text-align: center;
       margin: 20px 0;
