@@ -14,13 +14,13 @@
 h1 {
   text-align: center;
   color: #006400;
-  font-size: 24px; /* Default size for larger screens */
+  font-size: 36px; /* Default size for larger screens */
 }
 
 /* For smaller screens */
 @media (max-width: 768px) { /* Adjust the breakpoint as needed */
   h1 {
-    font-size: 18px; /* Reduced size for mobile devices */
+    font-size: 20px; /* Reduced size for mobile devices */
   }
 }
 
@@ -93,12 +93,19 @@ li {
   border: 1px solid #006400;
   border-radius: 5px;
   width: 100%;  /* Default width for mobile and smaller screens */
+  font-size: 16px; /* Default font size for larger screens */
 }
 
 /* Media query for desktop screens */
 @media (min-width: 768px) {
   li {
     width: 50%;  /* Limit width to 50% on desktop */
+  }
+}
+/* Media query for mobile screens */
+@media (max-width: 767px) {
+  li {
+    font-size: 14px; /* Smaller font size for mobile screens */
   }
 }
 
