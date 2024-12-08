@@ -11,10 +11,19 @@
       margin: 20px;
       user-select: none; /* Disable text selection */
     }
-    h1 {
-      text-align: center;
-      color: #006400;
-    }
+h1 {
+  text-align: center;
+  color: #006400;
+  font-size: 24px; /* Default size for larger screens */
+}
+
+/* For smaller screens */
+@media (max-width: 768px) { /* Adjust the breakpoint as needed */
+  h1 {
+    font-size: 18px; /* Reduced size for mobile devices */
+  }
+}
+
     .search-container {
       position: relative;
       width: 175px;
@@ -102,8 +111,6 @@ li span.word {
       margin: 20px 0;
     }
     .pagination button {
-      margin: 0 5px;
-      padding: 10px;
       background: #4caf50;
       color: white;
       border: none;
@@ -193,8 +200,9 @@ li span.word {
 
   <h1>Brar Punjabi Kosh</h1>
   <div class="search-container">
-    <input type="text" id="searchBox" placeholder="Filter records..." oninput="filterRecords()">
+    <input type="text" id="searchBox" placeholder="Filter words..." oninput="filterRecords()">
     <span class="clear-btn" id="clearButton" onclick="clearSearch()">&#x2715;</span>
+
   </div>
   <div id="loadingMessage">Loading...</div> <!-- Loading message -->
   <div id="recordsContainer">
