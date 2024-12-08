@@ -310,6 +310,7 @@ li span.word {
       currentPage = 1;
       displayRecords();
       updatePagination();
+window.scrollTo(0, 0);
     }
 
     function goPrevious() {
@@ -317,6 +318,7 @@ li span.word {
         currentPage--;
         displayRecords();
         updatePagination();
+window.scrollTo(0, 0);
       }
     }
 
@@ -326,6 +328,7 @@ li span.word {
         currentPage++;
         displayRecords();
         updatePagination();
+window.scrollTo(0, 0);
       }
     }
 
@@ -333,6 +336,7 @@ li span.word {
       currentPage = Math.ceil(currentRecords.length / recordsPerPage);
       displayRecords();
       updatePagination();
+window.scrollTo(0, 0);
     }
 
 
