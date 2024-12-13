@@ -279,16 +279,53 @@ li span.word {
       document.getElementById('btnEnd').disabled = currentPage === totalPages || totalPages === 0;
     }
 
-    function filterRecords() {
-      const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+function filterRecords() {
+  const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+
+  if (searchTerm.length === 1) {
+    let prefixes = [];
+
+    if (searchTerm === 'ੳ') { // ੳ is the Unicode for ੳ
+      prefixes = ['ੳ', 'ਉ', 'ਊ', 'ਓ']; // ੳ ਉ ਊ ਓ
+    } else if (searchTerm === 'ਅ') { // ਅ is the Unicode for ਅ
+      prefixes = ['ਅ', 'ਆ', 'ਐ', 'ਔ']; // ਅ ਆ ਐ
+    } else if (searchTerm === 'ੲ') { // ੲ is the Unicode for ੲ
+      prefixes = ['ੲ', 'ਈ', 'ਇ', 'ਏ']; // ੲ ਈ ਇ ਏ
+    } else if (searchTerm === 'ਸ') { // ਸ is the Unicode for ਸ
+      prefixes = ['ਸ', 'ਸ਼']; // ਸ ਸ਼
+    } else if (searchTerm === 'ਖ') { // ਖ is the Unicode for ਖ
+      prefixes = ['ਖ', 'ਖ਼']; // ਖ ਖ਼
+    } else if (searchTerm === 'ਗ') { // ਗ is the Unicode for ਗ
+      prefixes = ['ਗ', 'ਗ਼']; // ਗ ਗ਼
+    } else if (searchTerm === 'ਜ') { // ਜ is the Unicode for ਜ
+      prefixes = ['ਜ', 'ਜ਼']; // ਜ ਜ਼
+    } else if (searchTerm === 'ਫ') { // ਫ is the Unicode for ਫ
+      prefixes = ['ਫ', 'ਫ਼']; // ਫ ਫ਼
+    } else if (searchTerm === 'ਲ') { // ਲ is the Unicode for ਲ
+      prefixes = ['ਲ', 'ਲ਼']; // ਲ ਲ਼
+    }
+
+    if (prefixes.length > 0) {
+      currentRecords = allRecords.filter(record =>
+        prefixes.some(prefix => record.word.startsWith(prefix))
+      );
+    } else {
       currentRecords = allRecords.filter(record =>
         record.word.toLowerCase().startsWith(searchTerm)
       );
-      currentPage = 1;
-      displayRecords();
-      updatePagination();
-      toggleClearButton();
     }
+  } else {
+    currentRecords = allRecords.filter(record =>
+      record.word.toLowerCase().startsWith(searchTerm)
+    );
+  }
+
+  currentPage = 1;
+  displayRecords();
+  updatePagination();
+  toggleClearButton();
+}
+
 
     function clearSearch() {
       document.getElementById('searchBox').value = '';
