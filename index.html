@@ -235,7 +235,8 @@ li span.word {
 
     async function fetchAllRecords() {
       document.getElementById('loadingMessage').style.display = 'block'; // Show loading message
-      const scriptURL = "https://script.google.com/macros/s/AKfycbyLkv5u8NDrYaP1BeMP5aUAvIY3F0mxpLUQPh4ATnciEtvv9A9rV3B5F1_TZ8TLln9CyA/exec";
+      const scriptURL = "https://script.google.com/macros/s/AKfycbwqTtlQ5EKkoetI3qE4MIQL6hFPmH2ue2dOyiscY8Y8Za2cM_S2dofj8XTBfAYbyTsMvQ/exec";
+			 
       try {
         const response = await fetch(`${scriptURL}?all=true`);
         const rawRecords = await response.json();
